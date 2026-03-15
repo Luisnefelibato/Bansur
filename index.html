@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Remesas Bansur | Unimos familias, impulsamos futuros</title>
-  <meta name="description" content="Envía y recibe remesas de forma segura y rápida. Remesas Bansur conecta a las familias con el futuro.">
+  <meta name="description" content="Propuesta visual de la web de Remesas Bansur. Conoce los servicios: envío y recepción de remesas, transparencia y confianza. Página de demostración.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -101,10 +101,27 @@
       z-index: 1;
     }
 
+    /* Aviso propuesta visual */
+    .propuesta-aviso {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 101;
+      padding: 10px 24px;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--bg-dark);
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    .propuesta-aviso span { font-weight: 500; }
+
     /* Navigation */
     nav {
       position: fixed;
-      top: 0;
+      top: 40px;
       left: 0;
       right: 0;
       z-index: 100;
@@ -150,10 +167,11 @@
       animation: fadeDown 0.8s ease forwards;
     }
 
-    .nav-links a:nth-child(1) { animation-delay: 0.3s; }
-    .nav-links a:nth-child(2) { animation-delay: 0.35s; }
-    .nav-links a:nth-child(3) { animation-delay: 0.4s; }
-    .nav-links a:nth-child(4) { animation-delay: 0.45s; }
+    .nav-links a:nth-child(1) { animation-delay: 0.28s; }
+    .nav-links a:nth-child(2) { animation-delay: 0.32s; }
+    .nav-links a:nth-child(3) { animation-delay: 0.36s; }
+    .nav-links a:nth-child(4) { animation-delay: 0.4s; }
+    .nav-links a:nth-child(5) { animation-delay: 0.44s; }
 
     .nav-links a::after {
       content: '';
@@ -510,6 +528,168 @@
       font-size: 0.98rem;
     }
 
+    /* Services section — visual impact */
+    #servicios {
+      position: relative;
+      overflow: hidden;
+    }
+    #servicios::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 100% 60% at 50% 0%, rgba(13, 77, 66, 0.2) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 50% at 100% 80%, rgba(212, 175, 55, 0.06) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    #servicios .container { position: relative; z-index: 1; }
+    #servicios .section-title {
+      position: relative;
+      padding-bottom: 20px;
+    }
+    #servicios .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--teal-light), transparent);
+      opacity: 0.8;
+    }
+
+    /* Bento-style services grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: minmax(180px, auto);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (min-width: 900px) {
+      .service-card:first-child {
+        grid-column: span 2;
+        grid-row: span 2;
+        padding: 40px 36px;
+        background: linear-gradient(155deg, rgba(13, 55, 48, 0.5) 0%, rgba(18, 18, 18, 0.98) 40%, rgba(10, 25, 23, 0.95) 100%);
+        border-color: rgba(212, 175, 55, 0.25);
+      }
+      .service-card:first-child .service-icon { width: 80px; height: 80px; font-size: 2.5rem; margin-bottom: 24px; }
+      .service-card:first-child h3 { font-size: 1.75rem; margin-bottom: 14px; }
+      .service-card:first-child p { font-size: 1rem; }
+    }
+    @media (max-width: 899px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+      }
+    }
+    @media (max-width: 520px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    .service-card {
+      position: relative;
+      background: linear-gradient(145deg, rgba(18, 18, 18, 0.97) 0%, rgba(13, 28, 26, 0.95) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(212, 175, 55, 0.18);
+      border-radius: 20px;
+      padding: 28px 24px;
+      overflow: hidden;
+      transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, box-shadow 0.5s ease;
+      opacity: 0;
+      transform: translateY(40px) scale(0.96);
+    }
+    .service-card.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(135deg, var(--gold), var(--teal-light), var(--gold));
+      background-size: 200% 200%;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+    .service-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(212, 175, 55, 0.4);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.15), 0 0 60px rgba(212, 175, 55, 0.08);
+    }
+    .service-card:hover::before {
+      opacity: 1;
+      animation: borderFlow 3s ease-in-out infinite;
+    }
+    /* Shine sweep on hover */
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
+    .service-card:hover::after {
+      left: 100%;
+    }
+
+    .service-icon {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 18px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      box-shadow: 0 8px 24px rgba(0, 109, 91, 0.35);
+      animation: serviceIconPulse 4s ease-in-out infinite;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .service-card:hover .service-icon {
+      transform: scale(1.08);
+      box-shadow: 0 12px 32px rgba(212, 175, 55, 0.3);
+      animation: serviceIconPulse 2s ease-in-out infinite;
+    }
+    @keyframes serviceIconPulse {
+      0%, 100% { box-shadow: 0 8px 24px rgba(0, 109, 91, 0.35); }
+      50% { box-shadow: 0 8px 32px rgba(212, 175, 55, 0.25); }
+    }
+    .service-card:first-child .service-icon {
+      background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 50%, var(--gold-light) 100%);
+      box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    }
+
+    .service-card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+    .service-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
     /* How it works */
     .steps {
       display: flex;
@@ -761,14 +941,18 @@
   <div class="parallax-orb orb-2" id="orb2"><div class="parallax-orb-inner"></div></div>
   <div class="parallax-orb orb-3" id="orb3"><div class="parallax-orb-inner"></div></div>
 
+  <div class="propuesta-aviso" role="note" aria-label="Aviso">
+    <span>Propuesta visual — En esta página no se realizan transacciones. Solo se muestran los servicios de Remesas Bansur.</span>
+  </div>
   <nav id="nav">
     <div class="container">
       <img src="logo bansur.png" alt="Remesas Bansur" class="logo-nav">
       <ul class="nav-links">
+        <li><a href="#servicios">Servicios</a></li>
         <li><a href="#beneficios">Beneficios</a></li>
         <li><a href="#como-funciona">Cómo funciona</a></li>
         <li><a href="#confianza">Confianza</a></li>
-        <li><a href="#contacto" class="btn btn-primary">Enviar remesa</a></li>
+        <li><a href="#propuesta" class="btn btn-primary">Ver propuesta</a></li>
       </ul>
     </div>
   </nav>
@@ -786,11 +970,11 @@
       <h1>Envía con <span class="gold">confianza</span></h1>
       <p class="hero-tagline">Unimos familias, impulsamos futuros</p>
       <p class="hero-desc">
-        Envía y recibe remesas de forma segura, rápida y con las mejores condiciones.
+        Remesas, transferencias, pagos, recargas y más. Todo en un solo lugar, con seguridad y las mejores condiciones.
         Conectamos a tu familia con el futuro que merecen.
       </p>
       <div class="hero-btns">
-        <a href="#contacto" class="btn btn-primary">Enviar dinero ahora</a>
+        <a href="#servicios" class="btn btn-primary">Ver todos los servicios</a>
         <a href="#como-funciona" class="btn btn-outline">Cómo funciona</a>
       </div>
     </div>
@@ -799,6 +983,63 @@
       <div class="chevron"></div>
     </div>
   </header>
+
+  <section class="section" id="servicios">
+    <div class="section-parallax-bg" data-parallax="0.12"></div>
+    <div class="container">
+      <h2 class="section-title" data-animate><span class="word">Nuestros</span> <span class="word">servicios</span></h2>
+      <p class="section-subtitle" data-animate>
+        Más que remesas: todo lo que necesitas para tu dinero y el de tu familia.
+      </p>
+      <div class="services-grid">
+        <div class="service-card" data-animate>
+          <div class="service-icon">💸</div>
+          <h3>Remesas internacionales</h3>
+          <p>Envío y recepción de dinero desde y hacia el exterior. Tipo de cambio transparente y entrega rápida.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">↔️</div>
+          <h3>Transferencias nacionales</h3>
+          <p>Envía dinero dentro del país de forma segura entre cuentas o a puntos de pago.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">📄</div>
+          <h3>Pago de servicios</h3>
+          <p>Paga luz, agua, teléfono, internet, cable y otros servicios desde un solo lugar.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">📱</div>
+          <h3>Recarga móvil</h3>
+          <p>Recarga de minutos y datos para todas las operadoras. Rápido y disponible en nuestros puntos.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">🏦</div>
+          <h3>Retiro en efectivo</h3>
+          <p>Retira tu dinero en nuestra red de agencias y puntos de pago. Horarios amplios y cobertura nacional.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">💰</div>
+          <h3>Depósitos y ahorro</h3>
+          <p>Deposita y ahorra con seguridad. Productos diseñados para que tu dinero trabaje por ti.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">📋</div>
+          <h3>Pago de préstamos y cuotas</h3>
+          <p>Paga tus préstamos, cuotas y compromisos financieros de manera sencilla.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">📊</div>
+          <h3>Consulta de saldo y movimientos</h3>
+          <p>Revisa tu saldo y el historial de transacciones cuando lo necesites.</p>
+        </div>
+        <div class="service-card" data-animate>
+          <div class="service-icon">🛡️</div>
+          <h3>Seguros</h3>
+          <p>Protección para ti y tu familia. Seguros de vida, salud y más, al alcance de todos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <section class="section" id="beneficios">
     <div class="section-parallax-bg" data-parallax="0.15"></div>
@@ -887,13 +1128,13 @@
     </div>
   </section>
 
-  <section class="section cta" id="contacto">
+  <section class="section cta" id="propuesta">
     <div class="section-parallax-bg" data-parallax="0.1"></div>
     <div class="container">
       <div class="cta-box" data-animate>
-        <h2>Listo para enviar tu remesa</h2>
-        <p>Únete a las familias que ya confían en Remesas Bansur. Envía hoy con seguridad y el mejor valor.</p>
-        <a href="#" class="btn btn-primary">Comenzar ahora</a>
+        <h2>Propuesta de valor Remesas Bansur</h2>
+        <p>Esta es una página de demostración para visualizar todos nuestros servicios: remesas, transferencias, pagos, recargas, depósitos, seguros y más. No se realizan transacciones aquí.</p>
+        <a href="#servicios" class="btn btn-primary">Ver servicios</a>
       </div>
     </div>
   </section>
@@ -901,7 +1142,7 @@
   <footer>
     <div class="container">
       <img src="logo bansur.png" alt="Remesas Bansur" class="footer-logo">
-      <p>Remesas Bansur — Página de prueba y propuesta</p>
+      <p>Remesas Bansur — Propuesta visual. Solo exhibición de servicios, sin transacciones.</p>
       <p class="tagline">Unimos familias, impulsamos futuros.</p>
     </div>
   </footer>
@@ -976,6 +1217,9 @@
           const idx = Array.from(entry.target.parentElement.children).indexOf(entry.target);
           if (entry.target.classList.contains('benefit-card')) {
             entry.target.style.transitionDelay = `${idx * 0.1}s`;
+          }
+          if (entry.target.classList.contains('service-card')) {
+            entry.target.style.transitionDelay = `${idx * 0.06}s`;
           }
           if (entry.target.classList.contains('step')) {
             entry.target.style.transitionDelay = `${idx * 0.12}s`;
