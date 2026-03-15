@@ -580,41 +580,43 @@
     </section>
 
     <section id="arquitectura">
-      <h2>6. Arquitectura técnica — Nueva página Remesas Bansur</h2>
-      <p class="intro">Referencia para el diseño e implementación técnica de la web corporativa y de servicios: página de presentación (propuesta actual), futura página operativa e integraciones.</p>
+      <h2>6. Arquitectura técnica — Página sencilla Remesas Bansur</h2>
+      <p class="intro">Referencia para el diseño e implementación técnica de la <strong>página web sencilla e informativa</strong>: exhibición de servicios, cotizaciones/calculadora en pantalla, sin backend para procesar envíos de remesas.</p>
 
       <div class="arch-hero">
         <h2>Visión general y alcance</h2>
-        <p><strong>Objetivos:</strong> Sitio corporativo (servicios, Sobre nosotros, Beneficios, Cómo funciona, Confianza). Fase 2: cotización, registro, envío/recepción, historial. Requisitos: LCP &lt; 2.5s, FID &lt; 100ms, CLS &lt; 0.1, WCAG 2.1 AA, disponibilidad ≥ 99.5%.</p>
-        <p style="margin-top: 12px;">Usuarios: emisores y receptores; dispositivos móvil y desktop. Navegadores: Chrome, Firefox, Safari, Edge (últimas 2 versiones). Resoluciones 320px–1920px+.</p>
+        <p><strong>Objetivo:</strong> Página corporativa e informativa que muestre servicios (remesas, transferencias, pagos, recargas, etc.), Sobre nosotros, Beneficios, Cómo funciona y Confianza. Se puede incluir <strong>calculadora o bloque de cotización</strong> (tipo de cambio, monto a recibir) para que el usuario vea cifras orientativas — todo en solo lectura o con datos estáticos/API de consulta; <strong>no existe backend para realizar envíos</strong> (no registro de usuarios para enviar, no procesamiento de remesas ni pasarela de pagos en esta página).</p>
+        <p style="margin-top: 12px;"><strong>Requisitos no funcionales:</strong> LCP &lt; 2.5s, FID &lt; 100ms, CLS &lt; 0.1, WCAG 2.1 AA, disponibilidad ≥ 99.5%. Usuarios: visitantes que consultan servicios y cotizaciones; dispositivos móvil y desktop. Navegadores: Chrome, Firefox, Safari, Edge (últimas 2 versiones). Resoluciones 320px–1920px+.</p>
       </div>
 
       <h3>Stack tecnológico</h3>
       <div class="arch-card">
         <h3>Frontend</h3>
         <p><span class="arch-pill">HTML5</span> <span class="arch-pill">CSS3</span> <span class="arch-pill">JS ES2020+</span> <span class="arch-pill">Vite / Parcel</span></p>
-        <p style="margin-top: 12px;">Marcado semántico; CSS con variables, Grid, Flexbox; critical CSS inline; fuentes preload + font-display swap; imágenes WebP/AVIF, srcset, lazy loading; iconos SVG; build con minificación, tree-shaking, hashing.</p>
+        <p style="margin-top: 12px;">Marcado semántico; CSS con variables, Grid, Flexbox; critical CSS inline; fuentes preload + font-display swap; imágenes WebP/AVIF, srcset, lazy loading; iconos SVG; build con minificación, tree-shaking, hashing. La <strong>calculadora o cotización</strong> puede ser 100% en frontend (tipos de cambio estáticos o cargados por JS desde una API de solo lectura).</p>
       </div>
       <div class="arch-card">
-        <h3>Backend (fase operativa)</h3>
-        <p><span class="arch-pill">Node.js / .NET Core</span> <span class="arch-pill">PostgreSQL / MySQL</span> <span class="arch-pill">Redis</span> <span class="arch-pill">JWT + 2FA</span></p>
-        <p style="margin-top: 12px;">API REST para auth, cotización, órdenes; BD para usuarios y auditoría; Redis para sesiones y colas; autenticación con refresh tokens.</p>
+        <h3>Backend (mínimo, solo si aplica)</h3>
+        <p><span class="arch-pill">Formulario contacto</span> <span class="arch-pill">API solo lectura</span></p>
+        <p style="margin-top: 12px;">No hay backend para envíos de remesas. Opcional: (1) <strong>Formulario de contacto</strong> enviado vía servicio externo (Netlify Forms, Formspree, etc.) o API mínima que solo reciba el mensaje; (2) si la calculadora usa datos en vivo, una <strong>API o fuente de solo lectura</strong> (ej. tipo de cambio del día) sin lógica de transacciones. Sin registro de usuarios, sin base de datos de operaciones, sin pasarela de pagos.</p>
       </div>
       <div class="arch-card">
         <h3>Integraciones y hosting</h3>
-        <p>Proveedores remesas (API REST/SOAP), pasarela de pagos (PCI-DSS), email/SMS (SendGrid, Twilio), analytics (GA4 + consentimiento), CRM/soporte. Hosting: CDN + origen (Netlify, Vercel, Cloudflare Pages); backend en VPS o PaaS; DNS con DNSSEC; entornos staging y producción.</p>
+        <p>Opcional: fuente de <strong>tipo de cambio o cotización</strong> (API de solo lectura o JSON estático) para la calculadora. Formulario de contacto (Netlify, Formspree o similar). Analytics (GA4) con consentimiento. Hosting: <strong>sitio estático</strong> en CDN + origen (Netlify, Vercel, Cloudflare Pages); DNS con DNSSEC. No se integra con proveedores de remesas para procesar envíos ni con pasarelas de pago para cobrar envíos.</p>
       </div>
 
       <h3>Estructura de la aplicación</h3>
       <div class="arch-card">
         <h3>Rutas y páginas</h3>
         <div class="arch-code">/                     → Landing (Hero, Servicios, Sobre nosotros, Cómo funciona, Confianza, CTA)
-/sobre-nosotros       → [Opcional] Página ampliada
+/cotizar o #calculadora → Calculadora o cotización (solo visualización; sin envío)
+/sobre-nosotros       → [Opcional] Página ampliada Sobre nosotros
 /servicios            → Listado detallado de servicios
-/contacto             → Formulario y datos de agencias
+/contacto             → Formulario de contacto y datos de agencias
 /aviso-legal          → Aviso legal, condiciones de uso
 /politica-privacidad  → Privacidad y cookies
-[Fase 2] /cotizar, /registro, /login, /envio, /mis-envios, /cuenta</div>
+
+No hay: /registro, /login, /envio, /mis-envios ni backend de operaciones.</div>
       </div>
       <div class="arch-card">
         <h3>Componentes reutilizables</h3>
@@ -623,8 +625,9 @@
           <li><strong>Footer</strong> — Logo, enlaces legales, contacto, tagline</li>
           <li><strong>Sección genérica</strong> — Título, subtítulo, grid; parallax opcional</li>
           <li><strong>Tarjeta servicio / beneficio</strong> — Icono, título, descripción</li>
-          <li><strong>Bloque CTA</strong> — Gradiente, título, botón</li>
-          <li><strong>Formulario contacto</strong> — Validación cliente; envío API o Netlify/Formspree</li>
+          <li><strong>Calculadora / cotización</strong> — Selector de monto y destino; muestra tipo de cambio y monto a recibir (solo visualización, sin enviar remesa)</li>
+          <li><strong>Bloque CTA</strong> — Gradiente, título, botón (ej. “Ver servicios”, “Contactar”)</li>
+          <li><strong>Formulario contacto</strong> — Validación cliente; envío a Netlify Forms, Formspree o API mínima</li>
           <li><strong>Banner cookies</strong> — Consentimiento; persistencia en localStorage</li>
         </ul>
       </div>
@@ -651,8 +654,7 @@
         <ul>
           <li><strong>HTTPS</strong> obligatorio; TLS 1.2 mínimo; HSTS</li>
           <li><strong>Headers</strong> — CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy; SRI para CDN</li>
-          <li><strong>Datos</strong> — Validación cliente y servidor; cookies con consentimiento; política de privacidad explícita</li>
-          <li><strong>Backend</strong> — bcrypt/Argon2; rate limiting; auditoría; PCI-DSS si se procesan tarjetas</li>
+          <li><strong>Datos</strong> — Validación en formulario de contacto; cookies solo las necesarias (consentimiento); política de privacidad explícita. Al no haber envíos ni pagos, no aplica PCI-DSS ni almacenamiento de datos de transacciones.</li>
         </ul>
       </div>
 
@@ -666,12 +668,12 @@
       <div class="arch-card">
         <h3>Operación y entrega</h3>
         <ul>
-          <li>Health checks y alertas de disponibilidad</li>
-          <li>Logging de errores (ej. Sentry); analytics de eventos de negocio</li>
-          <li>Backups de BD y archivos; pruebas de restauración</li>
-          <li>CI/CD: build y tests en commit; despliegue a staging y producción; secretos en gestor</li>
+          <li>Health checks y alertas de disponibilidad del sitio estático</li>
+          <li>Logging de errores en frontend (ej. Sentry) si se usa; analytics de eventos (visitas, clics en calculadora, envío de contacto)</li>
+          <li>Backups del código y, si aplica, de respuestas del formulario de contacto; no hay base de datos de operaciones</li>
+          <li>CI/CD: build y tests en commit; despliegue a staging y producción (hosting estático)</li>
         </ul>
-        <p><strong>Entregables:</strong> Repositorio versionado; documentación y README; entornos staging y prod; tests unitarios y E2E; design system documentado.</p>
+        <p><strong>Entregables:</strong> Repositorio versionado; documentación y README; entornos staging y prod; tests de formularios y navegación; design system documentado.</p>
       </div>
     </section>
   </main>

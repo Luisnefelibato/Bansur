@@ -1,6 +1,6 @@
-# Arquitectura técnica — Nueva página Remesas Bansur
+# Arquitectura técnica — Página sencilla Remesas Bansur
 
-Documento de referencia para el diseño e implementación técnica de la web corporativa y de servicios de Remesas Bansur. Incluye la página de presentación (propuesta actual), la futura página operativa y las integraciones necesarias.
+Documento de referencia para el diseño e implementación técnica de la **página web sencilla e informativa** de Remesas Bansur. Incluye exhibición de servicios, calculadora/cotizaciones en pantalla y opcional formulario de contacto. **No hay backend para procesar envíos de remesas.**
 
 ---
 
@@ -8,8 +8,9 @@ Documento de referencia para el diseño e implementación técnica de la web cor
 
 ### 1.1 Objetivos técnicos
 
-- **Sitio corporativo/informativo**: Presentación de servicios (remesas, transferencias, pagos, recargas, depósitos, seguros), Sobre nosotros, Beneficios, Cómo funciona, Confianza. Sin transacciones; solo exhibición y generación de leads.
-- **Futuro sitio operativo** (fase 2): Cotización, registro, envío/recepción de remesas, consulta de estado, historial. Integración con backend y proveedores de pago/remesas.
+- **Página corporativa e informativa**: Presentación de servicios (remesas, transferencias, pagos, recargas, depósitos, seguros), Sobre nosotros, Beneficios, Cómo funciona, Confianza. Sin transacciones de envío; solo exhibición y generación de leads.
+- **Calculadora o cotización**: Se puede incluir un bloque/calculadora que muestre tipo de cambio y monto a recibir (datos estáticos o API de solo lectura). Solo visualización; **no se realizan envíos** desde esta página.
+- **Sin backend de envíos**: No existe backend para registrar usuarios, procesar remesas ni integrar pasarelas de pago para enviar dinero. Opcional: backend mínimo para formulario de contacto y/o API de solo lectura para datos de la calculadora.
 - **Requisitos no funcionales**: Rendimiento (LCP < 2.5s, FID < 100ms, CLS < 0.1), accesibilidad WCAG 2.1 AA, SEO, seguridad, disponibilidad ≥ 99.5%.
 
 ### 1.2 Usuarios y dispositivos
@@ -34,30 +35,24 @@ Documento de referencia para el diseño e implementación técnica de la web cor
 | **Iconos** | SVG inline o sprite | Icon font solo si ya existe | Accesibilidad: `aria-hidden="true"` o texto alternativo según contexto |
 | **Build** | Vite o Parcel | Webpack, Rollup | Minificación, tree-shaking, hashing de assets, generación de service worker (PWA opcional) |
 
-### 2.2 Backend (fase operativa)
+### 2.2 Backend (mínimo, solo si aplica)
 
-| Componente | Tecnología recomendada | Rol |
-|------------|-------------------------|-----|
-| **API** | Node.js (Express/Fastify) o .NET Core | Autenticación, cotización, órdenes de remesa, consultas |
-| **Base de datos** | PostgreSQL o MySQL/MariaDB | Usuarios, transacciones, logs de auditoría |
-| **Caché** | Redis | Sesiones, cotizaciones temporales, rate limiting |
-| **Colas** | Redis (Bull) o RabbitMQ | Procesamiento asíncrono de envíos, notificaciones |
-| **Autenticación** | JWT + refresh tokens; OAuth2/OpenID si login social | 2FA recomendado para operaciones sensibles |
+- **No hay backend para envíos de remesas.** No se implementan: registro de usuarios, procesamiento de órdenes de remesa, ni pasarela de pago para cobrar envíos.
+- **Opcional:** (1) **Formulario de contacto**: envío vía Netlify Forms, Formspree o API mínima que solo reciba el mensaje. (2) **Calculadora/cotización**: si se usan datos en vivo, una API o fuente de **solo lectura** (ej. tipo de cambio del día) para mostrar en la calculadora; sin lógica de transacciones.
 
 ### 2.3 Integraciones externas
 
-- **Proveedores de remesas**: APIs REST/SOAP del operador elegido (ej. corredor de remesas, red bancaria). Autenticación por API key + firma o mTLS según proveedor.
-- **Pagos**: Pasarela (Stripe, PayPal, o procesador local) para cobro de comisiones; cumplimiento PCI-DSS si se manejan datos de tarjeta.
-- **Email/SMS**: Servicio transaccional (SendGrid, Twilio, etc.) para confirmaciones, códigos OTP y notificaciones.
-- **Analytics**: Google Analytics 4 (o similar) con consentimiento (cookie banner, CMP). Eventos: scroll, clics en CTAs, secciones vistas.
-- **Soporte**: Chat widget o integración con CRM (Zendesk, Intercom, etc.) para contacto y leads.
+- **Calculadora/cotización**: Opcionalmente, API o JSON de solo lectura para tipo de cambio o tarifas (solo para mostrar en pantalla; no para ejecutar envíos).
+- **Formulario de contacto**: Netlify Forms, Formspree o API mínima para recibir mensajes.
+- **Analytics**: Google Analytics 4 (o similar) con consentimiento (cookie banner, CMP). Eventos: scroll, clics en CTAs, uso de calculadora, envío de contacto.
+- **Soporte**: Chat widget o enlace a canal de contacto si se desea. No se integra con proveedores de remesas para procesar envíos ni con pasarelas de pago.
 
 ### 2.4 Hosting e infraestructura
 
 | Elemento | Recomendación | Detalle |
 |----------|---------------|---------|
 | **Hosting estático** | CDN + origen (Netlify, Vercel, Cloudflare Pages, AWS S3+CloudFront) | SSL/TLS 1.3, HTTP/2, compresión Brotli/gzip |
-| **API/Backend** | VPS (DigitalOcean, Linode) o PaaS (Render, Railway, AWS ECS) | Escalado vertical/horizontal según carga |
+| **API/Backend** | Solo si se usa (formulario o API lectura); VPS o PaaS mínimo | No requerido para la página sencilla; opcional para contacto o datos calculadora |
 | **DNS** | Proveedor con DNSSEC (Cloudflare, AWS Route 53) | TTL bajo para críticos; CAA para certificados |
 | **Dominio** | Registro en proveedor de confianza | Renovación automática; bloqueo de transferencia |
 | **Entornos** | Producción, preproducción (staging), desarrollo | Variables de entorno por entorno; sin secretos en repo |
@@ -69,7 +64,8 @@ Documento de referencia para el diseño e implementación técnica de la web cor
 ### 3.1 Mapa de páginas y rutas
 
 ```
-/                     → Landing (Hero, Servicios, Beneficios, Sobre nosotros, Cómo funciona, Confianza, CTA)
+/                     → Landing (Hero, Servicios, Sobre nosotros, Cómo funciona, Confianza, CTA)
+/cotizar o #calculadora → Calculadora o cotización (solo visualización; sin envío)
 /sobre-nosotros       → [Opcional] Página ampliada Sobre nosotros
 /servicios            → [Opcional] Listado detallado de servicios con subpáginas
 /contacto             → Formulario de contacto y/o datos de agencias
@@ -77,13 +73,7 @@ Documento de referencia para el diseño e implementación técnica de la web cor
 /politica-privacidad  → Política de privacidad y cookies
 /accesibilidad        → Declaración de accesibilidad
 
-[Fase 2 - Operativo]
-/cotizar              → Calculadora/cotizador de remesas (sin login)
-/registro             → Alta de usuario
-/login                → Inicio de sesión
-/envio                → Flujo de envío (post-login)
-/mis-envios           → Historial y estado de envíos
-/cuenta               → Perfil, preferencias, métodos de pago
+No se incluyen: /registro, /login, /envio, /mis-envios, /cuenta (no hay backend de envíos).
 ```
 
 ### 3.2 Componentes reutilizables
@@ -140,12 +130,9 @@ Documento de referencia para el diseño e implementación técnica de la web cor
 - **Cookies**: Solo las necesarias; consentimiento según normativa (GDPR/LOPD según jurisdicción). `SameSite`, `Secure`, `HttpOnly` donde aplique.
 - **Política de privacidad**: Explicitar recogida, finalidad, base legal, cesiones (proveedores de remesas, email, analytics), derechos y contacto.
 
-### 5.3 Backend (fase operativa)
+### 5.3 Backend (si existe)
 
-- Autenticación robusta (bcrypt/Argon2 para contraseñas; JWT con expiración corta).
-- Rate limiting por IP y por usuario en endpoints sensibles.
-- Auditoría de operaciones críticas (envíos, cambios de datos).
-- Cumplimiento PCI-DSS si se procesan tarjetas; en caso contrario, delegar en pasarela certificada.
+- Solo aplica a formulario de contacto o API de solo lectura para la calculadora. Validación y sanitización de entradas; no se almacenan datos de transacciones ni tarjetas. No aplica PCI-DSS ni autenticación de usuarios para envíos.
 
 ---
 
