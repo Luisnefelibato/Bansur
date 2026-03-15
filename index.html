@@ -167,11 +167,13 @@
       animation: fadeDown 0.8s ease forwards;
     }
 
-    .nav-links a:nth-child(1) { animation-delay: 0.28s; }
-    .nav-links a:nth-child(2) { animation-delay: 0.32s; }
-    .nav-links a:nth-child(3) { animation-delay: 0.36s; }
-    .nav-links a:nth-child(4) { animation-delay: 0.4s; }
-    .nav-links a:nth-child(5) { animation-delay: 0.44s; }
+    .nav-links a:nth-child(1) { animation-delay: 0.26s; }
+    .nav-links a:nth-child(2) { animation-delay: 0.3s; }
+    .nav-links a:nth-child(3) { animation-delay: 0.34s; }
+    .nav-links a:nth-child(4) { animation-delay: 0.38s; }
+    .nav-links a:nth-child(5) { animation-delay: 0.42s; }
+    .nav-links a:nth-child(6) { animation-delay: 0.44s; }
+    .nav-links a:nth-child(7) { animation-delay: 0.48s; }
 
     .nav-links a::after {
       content: '';
@@ -746,6 +748,137 @@
       font-size: 0.95rem;
     }
 
+    /* Sobre nosotros */
+    #sobre-nosotros {
+      position: relative;
+      overflow: hidden;
+      padding: 100px 0 120px;
+    }
+    #sobre-nosotros::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 20% 50%, rgba(13, 77, 66, 0.25) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(212, 175, 55, 0.08) 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    #sobre-nosotros .container { position: relative; z-index: 1; }
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 60px;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .about-wrap { grid-template-columns: 1fr; gap: 48px; }
+    }
+    .about-visual {
+      position: relative;
+    }
+    .about-visual-block {
+      background: linear-gradient(155deg, var(--teal) 0%, var(--teal-light) 50%, rgba(13, 55, 48, 0.9) 100%);
+      border-radius: 24px;
+      padding: 48px 40px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .about-visual-block.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .about-visual-block::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .about-visual-block .tagline {
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .about-visual-block h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+    .about-visual-block p {
+      color: rgba(255,255,255,0.9);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .about-pillars {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .about-pillar {
+      background: linear-gradient(145deg, rgba(18, 18, 18, 0.98) 0%, rgba(13, 28, 26, 0.95) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 16px;
+      padding: 28px 32px;
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), border-color var(--transition), box-shadow var(--transition);
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    .about-pillar.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .about-pillar:hover {
+      transform: translateX(8px);
+      border-color: rgba(212, 175, 55, 0.4);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    }
+    .about-pillar-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+    }
+    .about-pillar h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .about-pillar p {
+      color: var(--gray);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin: 0;
+    }
+    #sobre-nosotros .section-title {
+      margin-bottom: 12px;
+    }
+    #sobre-nosotros .section-subtitle {
+      margin-bottom: 40px;
+    }
+
     /* Trust / Stats */
     .trust {
       background: linear-gradient(180deg, transparent 0%, rgba(13, 77, 66, 0.15) 50%, transparent 100%);
@@ -856,6 +989,13 @@
       letter-spacing: 0.1em;
       margin-top: 8px;
     }
+    .footer-link-doc {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition), opacity var(--transition);
+    }
+    .footer-link-doc:hover { color: var(--gold-light); opacity: 0.95; }
 
     /* Scroll progress bar */
     .scroll-progress {
@@ -950,8 +1090,10 @@
       <ul class="nav-links">
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#beneficios">Beneficios</a></li>
+        <li><a href="#sobre-nosotros">Sobre nosotros</a></li>
         <li><a href="#como-funciona">Cómo funciona</a></li>
         <li><a href="#confianza">Confianza</a></li>
+        <li><a href="index2.html">Investigación y arquitectura</a></li>
         <li><a href="#propuesta" class="btn btn-primary">Ver propuesta</a></li>
       </ul>
     </div>
@@ -1128,6 +1270,42 @@
     </div>
   </section>
 
+  <section class="section" id="sobre-nosotros">
+    <div class="section-parallax-bg" data-parallax="0.1"></div>
+    <div class="container">
+      <h2 class="section-title" data-animate><span class="word">Sobre</span> <span class="word">nosotros</span></h2>
+      <p class="section-subtitle" data-animate>
+        Conectamos personas y familias con soluciones financieras claras y accesibles.
+      </p>
+      <div class="about-wrap">
+        <div class="about-visual">
+          <div class="about-visual-block" data-animate>
+            <p class="tagline">Unimos familias, impulsamos futuros</p>
+            <h2>Más que remesas: tu aliado financiero</h2>
+            <p>En Remesas Bansur creemos que cada familia merece acceso a servicios financieros transparentes y seguros. Nacimos para ofrecer no solo envío y recepción de dinero, sino una red de soluciones — transferencias, pagos, ahorro, seguros — con la confianza y claridad que nuestros clientes necesitan.</p>
+          </div>
+        </div>
+        <div class="about-pillars">
+          <div class="about-pillar" data-animate>
+            <div class="about-pillar-icon">🎯</div>
+            <h3>Misión</h3>
+            <p>Facilitar el acceso a servicios financieros y de remesas con transparencia, rapidez y seguridad, contribuyendo al bienestar de las familias y sus comunidades.</p>
+          </div>
+          <div class="about-pillar" data-animate>
+            <div class="about-pillar-icon">👁️</div>
+            <h3>Visión</h3>
+            <p>Ser la opción de referencia en remesas y servicios financieros complementarios, reconocidos por la claridad de nuestra oferta y el trato cercano al usuario.</p>
+          </div>
+          <div class="about-pillar" data-animate>
+            <div class="about-pillar-icon">💎</div>
+            <h3>Valores</h3>
+            <p>Transparencia, confianza, inclusión y compromiso con las familias. Cada transacción refleja nuestro compromiso con la claridad y el servicio de calidad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section cta" id="propuesta">
     <div class="section-parallax-bg" data-parallax="0.1"></div>
     <div class="container">
@@ -1144,6 +1322,7 @@
       <img src="logo bansur.png" alt="Remesas Bansur" class="footer-logo">
       <p>Remesas Bansur — Propuesta visual. Solo exhibición de servicios, sin transacciones.</p>
       <p class="tagline">Unimos familias, impulsamos futuros.</p>
+      <p style="margin-top: 16px;"><a href="index2.html" class="footer-link-doc">Ver investigación y arquitectura técnica →</a></p>
     </div>
   </footer>
 
@@ -1220,6 +1399,9 @@
           }
           if (entry.target.classList.contains('service-card')) {
             entry.target.style.transitionDelay = `${idx * 0.06}s`;
+          }
+          if (entry.target.classList.contains('about-pillar')) {
+            entry.target.style.transitionDelay = `${idx * 0.12}s`;
           }
           if (entry.target.classList.contains('step')) {
             entry.target.style.transitionDelay = `${idx * 0.12}s`;

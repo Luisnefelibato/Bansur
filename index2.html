@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investigación y arquitectura técnica — Remesas Bansur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="logo bansur.png">
+  <style>
+    :root {
+      --bg-dark: #0a0a0a;
+      --bg-card: #121212;
+      --bg-card-hover: #161616;
+      --gold: #d4af37;
+      --gold-light: #e8c547;
+      --gold-dark: #b8962e;
+      --teal: #0d4d42;
+      --teal-light: #006d5b;
+      --teal-glow: rgba(0, 109, 91, 0.25);
+      --white: #f5f5f0;
+      --gray: #9a9a9a;
+      --red-weak: rgba(220, 100, 80, 0.15);
+      --green-strong: rgba(0, 109, 91, 0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-dark);
+      color: var(--white);
+      line-height: 1.65;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header doc */
+    .doc-header {
+      background: linear-gradient(180deg, var(--teal) 0%, rgba(13, 77, 66, 0.4) 100%);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+      padding: 48px 24px 56px;
+      text-align: center;
+    }
+    .doc-header img {
+      height: 56px;
+      margin-bottom: 20px;
+      opacity: 0.95;
+    }
+    .doc-header h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.75rem, 4vw, 2.25rem);
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .doc-header .subtitle {
+      color: var(--gold);
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .doc-header .meta {
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    /* Sections */
+    section {
+      padding: 48px 0;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+    }
+    section:last-of-type { border-bottom: none; }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+
+    h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--white);
+      margin: 28px 0 12px;
+    }
+
+    p {
+      color: var(--gray);
+      margin-bottom: 14px;
+      font-size: 0.98rem;
+    }
+
+    .intro {
+      font-size: 1.05rem;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin: 0 0 20px 20px;
+      color: var(--gray);
+    }
+    li { margin-bottom: 8px; }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.15);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 14px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    th {
+      background: rgba(13, 77, 66, 0.3);
+      color: var(--gold);
+      font-weight: 600;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    .weak { color: #e08a7a; }
+    .strong { color: #7ac9a0; }
+
+    /* Cards debilidad / Bansur */
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 24px 0;
+    }
+    @media (max-width: 700px) {
+      .comparison-grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      border-radius: 12px;
+      padding: 24px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      background: var(--bg-card);
+    }
+    .card.weakness {
+      border-left: 4px solid rgba(220, 100, 80, 0.6);
+      background: var(--red-weak);
+    }
+    .card.bansur {
+      border-left: 4px solid var(--teal-light);
+      background: var(--green-strong);
+    }
+    .card h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 12px;
+      color: var(--gray);
+    }
+    .card.weakness h4 { color: #e08a7a; }
+    .card.bansur h4 { color: #7ac9a0; }
+    .card p, .card ul { margin-bottom: 0; color: var(--white); }
+    .card ul { margin-left: 18px; margin-top: 10px; }
+
+    /* Highlight quote */
+    .highlight {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-light) 100%);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin: 28px 0;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .highlight p {
+      color: rgba(255,255,255,0.95);
+      margin: 0;
+      font-size: 1.05rem;
+    }
+    .highlight strong { color: var(--gold); }
+
+    /* Summary matrix */
+    .matrix {
+      display: grid;
+      grid-template-columns: 2fr repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(212, 175, 55, 0.15);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 24px 0;
+      font-size: 0.88rem;
+    }
+    .matrix > * {
+      padding: 12px 16px;
+      background: var(--bg-card);
+    }
+    .matrix .head {
+      background: rgba(13, 77, 66, 0.5);
+      color: var(--gold);
+      font-weight: 600;
+    }
+    .matrix .bansur-col { background: var(--green-strong); }
+    .matrix .check { color: #7ac9a0; }
+    .matrix .cross { color: #e08a7a; }
+
+    /* Footer doc */
+    .doc-footer {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid rgba(212, 175, 55, 0.1);
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+    .doc-footer .tagline { color: var(--gold); margin-top: 8px; }
+
+    .table-compare-matrix table { font-size: 0.85rem; }
+    .table-compare-matrix th, .table-compare-matrix td { padding: 10px 8px; text-align: center; }
+    .table-compare-matrix th:first-child, .table-compare-matrix td:first-child { text-align: left; min-width: 180px; }
+
+    /* Doc nav */
+    .doc-nav {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 24px;
+      background: rgba(10, 10, 10, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    }
+    .doc-nav a {
+      padding: 10px 20px;
+      color: var(--gray);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .doc-nav a:hover, .doc-nav a.active { color: var(--gold); background: rgba(212, 175, 55, 0.1); }
+    .doc-nav a.doc-nav-home { color: var(--teal-light); }
+    .doc-nav a.doc-nav-home:hover { color: var(--gold); }
+
+    /* Arquitectura técnica — bloques visuales */
+    .arch-hero {
+      background: linear-gradient(155deg, var(--teal) 0%, var(--teal-light) 40%, rgba(13, 55, 48, 0.95) 100%);
+      border-radius: 20px;
+      padding: 40px 40px 36px;
+      margin: 32px 0 40px;
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+    .arch-hero h2 { color: var(--white); border: none; margin-bottom: 12px; padding: 0; }
+    .arch-hero p { color: rgba(255,255,255,0.92); margin-bottom: 0; }
+    .arch-card {
+      background: linear-gradient(145deg, rgba(18, 18, 18, 0.98) 0%, rgba(13, 28, 26, 0.95) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-left: 4px solid var(--teal-light);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 24px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .arch-card:hover { border-color: rgba(212, 175, 55, 0.35); border-left-color: var(--gold); box-shadow: 0 12px 32px rgba(0,0,0,0.25); }
+    .arch-card h3 {
+      font-size: 1.15rem;
+      margin: 0 0 16px 0;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+      color: var(--gold);
+    }
+    .arch-card ul { margin: 0 0 0 20px; }
+    .arch-card li { margin-bottom: 6px; }
+    .arch-code {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 12px;
+      padding: 20px 24px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--gray);
+      overflow-x: auto;
+      margin: 16px 0;
+      white-space: pre;
+    }
+    .arch-table { margin: 16px 0; }
+    .arch-table th { background: rgba(13, 77, 66, 0.4); padding: 10px 14px; font-size: 0.88rem; }
+    .arch-table td { padding: 10px 14px; font-size: 0.88rem; }
+    .arch-pill {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+    .arch-pill.teal { background: rgba(0, 109, 91, 0.25); color: #7ac9a0; }
+    #arquitectura section { padding: 40px 0; }
+    #arquitectura h2 { font-size: 1.5rem; }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <img src="logo bansur.png" alt="Remesas Bansur">
+    <h1>Investigación y arquitectura técnica</h1>
+    <p class="subtitle">Unimos familias, impulsamos futuros</p>
+    <p class="meta">Análisis de webs de remesas · Propuesta Bansur · Arquitectura de la nueva página</p>
+  </header>
+
+  <nav class="doc-nav" aria-label="Navegación del documento">
+    <a href="index.html" class="doc-nav-home">← Página principal</a>
+    <a href="#investigacion">Investigación</a>
+    <a href="#arquitectura">Arquitectura técnica</a>
+  </nav>
+
+  <main class="container">
+    <section id="investigacion">
+      <h2>1. Objetivo del documento (investigación)</h2>
+      <p class="intro">
+        Este documento analiza las <strong>páginas web que solo exponen lo que el usuario puede hacer y los servicios</strong> ofrecidos por empresas de remesas: es decir, sitios informativos o de presentación donde se muestra la oferta (envío, recepción, beneficios, cómo funciona), <strong>no</strong> las plataformas donde se realizan las transacciones.
+      </p>
+      <p>
+        Se comparan las webs de presentación de Western Union, MoneyGram, Remitly, WorldRemit, bancos con remesas (Banrural, Banco Azteca, BanPaís, etc.) para ver <strong>cómo exponen sus servicios</strong> en la página: qué se ve al entrar, qué entiende el usuario que puede hacer y por qué la propuesta de página de Bansur (exhibición de servicios, sin transacciones) resulta mejor para comunicar claramente la oferta.
+      </p>
+    </section>
+
+    <section>
+      <h2>2. Qué páginas se analizan</h2>
+      <p>
+        Se revisan las <strong>páginas web institucionales o de presentación</strong> de cada actor: la home, las secciones “Servicios”, “Qué puedes hacer”, “Cómo funciona”, “Beneficios”, etc. El foco es en <strong>cómo se exponen</strong> los servicios al usuario que entra a informarse — no en el flujo de envío de dinero ni en las apps operativas.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Web analizada</th>
+              <th>Cómo expone servicios y “qué puedes hacer”</th>
+              <th>Debilidad en la exposición</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Western Union / MoneyGram (páginas de presentación)</td>
+              <td>Home muy centrada en formulario de envío; servicios y beneficios repartidos en menús y subpáginas. Mucho texto institucional.</td>
+              <td>Lo que el usuario puede hacer (enviar, recibir, tipos de servicio) no está resumido de forma clara en la primera pantalla. Servicios enterrados en menús.</td>
+            </tr>
+            <tr>
+              <td>Remitly / WorldRemit (webs de presentación)</td>
+              <td>Mensaje principal “Enviar dinero”; el resto de servicios y beneficios aparece en scroll o en páginas secundarias.</td>
+              <td>Poca separación visual entre “qué ofrecemos” y “empezar a enviar”. No se ve de un vistazo toda la oferta (servicios, beneficios, pasos).</td>
+            </tr>
+            <tr>
+              <td>Ria Money Transfer (web de presentación)</td>
+              <td>Home orientada a “Enviar dinero” con selector de país; servicios y beneficios en menú. Red física muy presente en el mensaje.</td>
+              <td>Listado de servicios poco destacado en la primera pantalla; tipo de cambio y costos no visibles sin iniciar flujo. Experiencia informativa secundaria frente al CTA de envío.</td>
+            </tr>
+            <tr>
+              <td>Bancos (páginas de remesas)</td>
+              <td>Remesas como una sección más del sitio del banco; enlaces a “Enviar”, “Recibir”, “Tarifas” dentro de la estructura de banca.</td>
+              <td>La exposición de servicios se diluye en la oferta global del banco. No hay una “página de servicios de remesas” clara y dedicada; el usuario debe navegar varios niveles.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section>
+      <h2>3. Debilidades en cómo se exponen los servicios</h2>
+
+      <h3>3.1 Los servicios no están visibles de un vistazo</h3>
+      <div class="comparison-grid">
+        <div class="card weakness">
+          <h4>Qué pasa en las webs del mercado</h4>
+          <p>En muchas webs <strong>no hay un bloque claro que liste “estos son nuestros servicios”</strong> (envío, recepción, tipo de cambio, rapidez, cobertura). El usuario tiene que explorar menús o hacer scroll largo para entender qué puede hacer. Los beneficios (transparencia, seguridad, velocidad) no están agrupados ni destacados en la misma página.</p>
+        </div>
+        <div class="card bansur">
+          <h4>Por qué Bansur será mejor</h4>
+          <p><strong>Una sola página que expone todo:</strong> hero con mensaje y tagline, luego bloques claros: “Por qué elegirnos” (beneficios), “Cómo funciona” (pasos), “Confianza” (datos). El usuario ve en un recorrido qué servicios hay y qué puede hacer, sin entrar en flujos de transacción.</p>
+        </div>
+      </div>
+
+      <h3>3.2 Mezcla entre “información” y “acción de enviar”</h3>
+      <div class="comparison-grid">
+        <div class="card weakness">
+          <h4>Qué pasa en las webs del mercado</h4>
+          <p>La home suele llevar directo a un formulario o a “Enviar dinero ahora”. Quien solo quiere <strong>conocer los servicios</strong> no tiene una vista dedicada: la exposición de la oferta se mezcla con la llamada a operar. Eso genera ruido y no deja claro “esta es la oferta” vs “aquí envías”.</p>
+        </div>
+        <div class="card bansur">
+          <h4>Por qué Bansur será mejor</h4>
+          <p><strong>Página solo de exhibición:</strong> la propuesta Bansur es una página que <strong>solo expone</strong> servicios y beneficios (sin transacciones). El usuario entiende de inmediato: “aquí veo qué ofrece Bansur”. Los botones llevan a ver más secciones (“Ver servicios”, “Ver propuesta”), no a enviar dinero. Claridad total.</p>
+        </div>
+      </div>
+
+      <h3>3.3 Poca jerarquía y mensaje único</h3>
+      <div class="comparison-grid">
+        <div class="card weakness">
+          <h4>Qué pasa en las webs del mercado</h4>
+          <p>Textos largos, varios CTAs compitiendo, mensajes genéricos (“rápido”, “seguro”) sin un hilo claro. No se distingue bien <strong>qué te hace diferente</strong> ni en qué orden leer. En bancos, la identidad de “remesas” se pierde dentro del sitio general.</p>
+        </div>
+        <div class="card bansur">
+          <h4>Por qué Bansur será mejor</h4>
+          <p><strong>Jerarquía clara:</strong> un mensaje principal (“Envía con confianza”), tagline (“Unimos familias, impulsamos futuros”), luego secciones ordenadas con títulos visibles (Beneficios, Cómo funciona, Confianza, Propuesta). Tipografía y espaciado que facilitan la lectura. Identidad visual consistente (dorado, verde, negro).</p>
+        </div>
+      </div>
+
+      <h3>3.4 “Cómo funciona” poco visible o disperso</h3>
+      <div class="comparison-grid">
+        <div class="card weakness">
+          <h4>Qué pasa en las webs del mercado</h4>
+          <p>Los pasos (registro, envío, recepción) suelen estar en páginas aparte o en texto corrido. El usuario no ve de un vistazo <strong>qué hace en cada paso</strong>. En algunos sitios, “cómo funciona” queda relegado a pie de página o a un enlace secundario.</p>
+        </div>
+        <div class="card bansur">
+          <h4>Por qué Bansur será mejor</h4>
+          <p><strong>Sección dedicada y visual:</strong> “Cómo funciona” con 3 pasos numerados y visibles (Regístrate/acude, Envía tu remesa, Tu familia recibe). Cada paso con título y texto corto. Todo en la misma página, sin clics extra. El usuario entiende el flujo solo con recorrer la web.</p>
+        </div>
+      </div>
+
+      <h3>3.5 Falta de confianza y consistencia visual</h3>
+      <div class="comparison-grid">
+        <div class="card weakness">
+          <h4>Qué pasa en las webs del mercado</h4>
+          <p>Diseños genéricos, promociones y banners que restan seriedad, poca coherencia entre secciones. No siempre queda claro que es una marca sólida y transparente. En móvil, la experiencia de “leer los servicios” a veces es pobre.</p>
+        </div>
+        <div class="card bansur">
+          <h4>Por qué Bansur será mejor</h4>
+          <p><strong>Identidad sólida y profesional:</strong> paleta y tipografía coherentes en toda la página, sin dark patterns ni información escondida. Aviso claro de “Propuesta visual — no se realizan transacciones” para que no haya confusión. Aspecto cuidado que transmite confianza y transparencia.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>4. Resumen: por qué la página Bansur será mejor</h2>
+      <div class="highlight">
+        <p>
+          La propuesta de Bansur es una <strong>página web que solo expone</strong> lo que el usuario puede hacer y los servicios: sin transacciones, sin formularios de envío, solo exhibición clara. Así se evita la confusión de otras webs donde “ver la oferta” y “enviar dinero” se mezclan. Bansur concentra en una sola vista: mensaje principal, beneficios, cómo funciona y propuesta de valor, con jerarquía clara e identidad visual que transmiten confianza. <strong>Por eso será mejor</strong>: el usuario entiende de inmediato qué ofrece Bansur y qué puede hacer.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Criterio (exposición de servicios en la página)</th>
+              <th>Webs del mercado</th>
+              <th>Página Bansur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Servicios y beneficios visibles en una sola página</td>
+              <td class="weak">Repartidos en menús o varias pantallas; no hay “todo en un vistazo”</td>
+              <td class="strong">Una página con secciones claras: beneficios, cómo funciona, confianza</td>
+            </tr>
+            <tr>
+              <td>Separación “exponer servicios” vs “hacer transacción”</td>
+              <td class="weak">Home mezcla oferta con formulario de envío; poco espacio solo informativo</td>
+              <td class="strong">Solo exhibición: no se realizan transacciones; CTAs a “Ver servicios”</td>
+            </tr>
+            <tr>
+              <td>Jerarquía y mensaje único</td>
+              <td class="weak">Textos densos, varios CTAs, mensaje poco claro</td>
+              <td class="strong">Hero + tagline + secciones ordenadas; lectura fácil</td>
+            </tr>
+            <tr>
+              <td>“Cómo funciona” visible</td>
+              <td class="weak">Pasos en página aparte o en texto corrido</td>
+              <td class="strong">Sección dedicada con 3 pasos numerados en la misma página</td>
+            </tr>
+            <tr>
+              <td>Confianza y claridad</td>
+              <td class="weak">Diseño genérico, promociones, poca identidad</td>
+              <td class="strong">Identidad coherente, aviso “propuesta visual”, aspecto profesional</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Matriz comparativa por actor (WU, MoneyGram, Remitly, WorldRemit, Ria, Bancos, Bansur)</h3>
+      <p style="margin-bottom: 16px;">Criterios de exposición en la página: ✓ cumple / ✗ no cumple o débil.</p>
+      <div class="table-wrap table-compare-matrix">
+        <table>
+          <thead>
+            <tr>
+              <th>Criterio</th>
+              <th>WU</th>
+              <th>MoneyGram</th>
+              <th>Remitly</th>
+              <th>WorldRemit</th>
+              <th>Ria</th>
+              <th>Bancos</th>
+              <th>Bansur</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Servicios listados en primera pantalla</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="strong">✓</td>
+            </tr>
+            <tr>
+              <td>Exposición clara sin mezclar con formulario de envío</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="strong">✓</td>
+            </tr>
+            <tr>
+              <td>Jerarquía y mensaje único visibles</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">—</td>
+              <td class="weak">—</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="strong">✓</td>
+            </tr>
+            <tr>
+              <td>“Cómo funciona” en la misma página</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="weak">✗</td>
+              <td class="strong">✓</td>
+            </tr>
+            <tr>
+              <td>Identidad visual coherente (remesas)</td>
+              <td class="weak">—</td>
+              <td class="weak">—</td>
+              <td class="weak">—</td>
+              <td class="weak">—</td>
+              <td class="weak">—</td>
+              <td class="weak">✗</td>
+              <td class="strong">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-top: 12px; font-size: 0.9rem; color: var(--gray);">— = parcial o variable según sitio específico.</p>
+    </section>
+
+    <section>
+      <h2>5. Alcance y fuentes</h2>
+      <ul>
+        <li>Revisión de las <strong>páginas web de presentación</strong> de Western Union, MoneyGram, Remitly, WorldRemit, Ria Money Transfer y de las secciones de remesas de Banrural, Banco Azteca, BanPaís: qué muestran en la home, cómo organizan “servicios”, “qué puedes hacer”, “cómo funciona”.</li>
+        <li>Enfoque en <strong>páginas que solo exponen</strong> la oferta (informativas), no en las plataformas donde se ejecutan envíos.</li>
+        <li>Buenas prácticas de <strong>UX y comunicación</strong>: una página que expone servicios debe tener jerarquía clara, secciones identificables y mensaje único.</li>
+      </ul>
+      <p style="margin-top: 16px;">
+        Este documento se limita a <strong>cómo las webs exponen los servicios</strong> al usuario (qué puede hacer, qué se ofrece) y por qué la propuesta de página de Bansur —una web que solo exhibe servicios, sin transacciones— resulta más clara y efectiva para comunicar la oferta.
+      </p>
+    </section>
+
+    <section id="arquitectura">
+      <h2>6. Arquitectura técnica — Nueva página Remesas Bansur</h2>
+      <p class="intro">Referencia para el diseño e implementación técnica de la web corporativa y de servicios: página de presentación (propuesta actual), futura página operativa e integraciones.</p>
+
+      <div class="arch-hero">
+        <h2>Visión general y alcance</h2>
+        <p><strong>Objetivos:</strong> Sitio corporativo (servicios, Sobre nosotros, Beneficios, Cómo funciona, Confianza). Fase 2: cotización, registro, envío/recepción, historial. Requisitos: LCP &lt; 2.5s, FID &lt; 100ms, CLS &lt; 0.1, WCAG 2.1 AA, disponibilidad ≥ 99.5%.</p>
+        <p style="margin-top: 12px;">Usuarios: emisores y receptores; dispositivos móvil y desktop. Navegadores: Chrome, Firefox, Safari, Edge (últimas 2 versiones). Resoluciones 320px–1920px+.</p>
+      </div>
+
+      <h3>Stack tecnológico</h3>
+      <div class="arch-card">
+        <h3>Frontend</h3>
+        <p><span class="arch-pill">HTML5</span> <span class="arch-pill">CSS3</span> <span class="arch-pill">JS ES2020+</span> <span class="arch-pill">Vite / Parcel</span></p>
+        <p style="margin-top: 12px;">Marcado semántico; CSS con variables, Grid, Flexbox; critical CSS inline; fuentes preload + font-display swap; imágenes WebP/AVIF, srcset, lazy loading; iconos SVG; build con minificación, tree-shaking, hashing.</p>
+      </div>
+      <div class="arch-card">
+        <h3>Backend (fase operativa)</h3>
+        <p><span class="arch-pill">Node.js / .NET Core</span> <span class="arch-pill">PostgreSQL / MySQL</span> <span class="arch-pill">Redis</span> <span class="arch-pill">JWT + 2FA</span></p>
+        <p style="margin-top: 12px;">API REST para auth, cotización, órdenes; BD para usuarios y auditoría; Redis para sesiones y colas; autenticación con refresh tokens.</p>
+      </div>
+      <div class="arch-card">
+        <h3>Integraciones y hosting</h3>
+        <p>Proveedores remesas (API REST/SOAP), pasarela de pagos (PCI-DSS), email/SMS (SendGrid, Twilio), analytics (GA4 + consentimiento), CRM/soporte. Hosting: CDN + origen (Netlify, Vercel, Cloudflare Pages); backend en VPS o PaaS; DNS con DNSSEC; entornos staging y producción.</p>
+      </div>
+
+      <h3>Estructura de la aplicación</h3>
+      <div class="arch-card">
+        <h3>Rutas y páginas</h3>
+        <div class="arch-code">/                     → Landing (Hero, Servicios, Sobre nosotros, Cómo funciona, Confianza, CTA)
+/sobre-nosotros       → [Opcional] Página ampliada
+/servicios            → Listado detallado de servicios
+/contacto             → Formulario y datos de agencias
+/aviso-legal          → Aviso legal, condiciones de uso
+/politica-privacidad  → Privacidad y cookies
+[Fase 2] /cotizar, /registro, /login, /envio, /mis-envios, /cuenta</div>
+      </div>
+      <div class="arch-card">
+        <h3>Componentes reutilizables</h3>
+        <ul>
+          <li><strong>Header/Nav</strong> — Logo, menú, CTA, sticky con cambio al scroll</li>
+          <li><strong>Footer</strong> — Logo, enlaces legales, contacto, tagline</li>
+          <li><strong>Sección genérica</strong> — Título, subtítulo, grid; parallax opcional</li>
+          <li><strong>Tarjeta servicio / beneficio</strong> — Icono, título, descripción</li>
+          <li><strong>Bloque CTA</strong> — Gradiente, título, botón</li>
+          <li><strong>Formulario contacto</strong> — Validación cliente; envío API o Netlify/Formspree</li>
+          <li><strong>Banner cookies</strong> — Consentimiento; persistencia en localStorage</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h3>Design system (tokens)</h3>
+        <p><span class="arch-pill">--bg-dark</span> <span class="arch-pill">--gold</span> <span class="arch-pill">--teal</span> <span class="arch-pill teal">Cormorant Garamond</span> <span class="arch-pill teal">Outfit</span></p>
+        <p style="margin-top: 12px;">Colores, tipografía modular, espaciado 4/8px, border-radius 8–24px, sombras, animaciones cubic-bezier(0.22, 1, 0.36, 1); respetar prefers-reduced-motion.</p>
+      </div>
+
+      <h3>Rendimiento y Core Web Vitals</h3>
+      <div class="arch-card">
+        <h3>Métricas y estrategias</h3>
+        <ul>
+          <li><strong>LCP</strong> &lt; 2.5 s — Critical CSS inline; imágenes hero optimizadas; preload fuentes</li>
+          <li><strong>FID/INP</strong> &lt; 100 ms — JS defer/async; tareas largas en worker</li>
+          <li><strong>CLS</strong> &lt; 0.1 — Dimensiones explícitas en imágenes; reserva espacio para fuentes</li>
+        </ul>
+        <p>Caché larga para assets con hash; third-party tras interactividad; Service Worker opcional.</p>
+      </div>
+
+      <h3>Seguridad</h3>
+      <div class="arch-card">
+        <h3>Transporte, contenido y datos</h3>
+        <ul>
+          <li><strong>HTTPS</strong> obligatorio; TLS 1.2 mínimo; HSTS</li>
+          <li><strong>Headers</strong> — CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy; SRI para CDN</li>
+          <li><strong>Datos</strong> — Validación cliente y servidor; cookies con consentimiento; política de privacidad explícita</li>
+          <li><strong>Backend</strong> — bcrypt/Argon2; rate limiting; auditoría; PCI-DSS si se procesan tarjetas</li>
+        </ul>
+      </div>
+
+      <h3>Accesibilidad y SEO</h3>
+      <div class="arch-card">
+        <h3>WCAG 2.1 AA y visibilidad</h3>
+        <p>Contraste 4.5:1; semántica y landmarks; labels en formularios; navegación por teclado; skip link; prefers-reduced-motion. SEO: meta title/description por página; og tags; un h1 por página; URLs amigables; sitemap.xml; Schema.org (Organization, WebSite).</p>
+      </div>
+
+      <h3>Monitoreo y entregables</h3>
+      <div class="arch-card">
+        <h3>Operación y entrega</h3>
+        <ul>
+          <li>Health checks y alertas de disponibilidad</li>
+          <li>Logging de errores (ej. Sentry); analytics de eventos de negocio</li>
+          <li>Backups de BD y archivos; pruebas de restauración</li>
+          <li>CI/CD: build y tests en commit; despliegue a staging y producción; secretos en gestor</li>
+        </ul>
+        <p><strong>Entregables:</strong> Repositorio versionado; documentación y README; entornos staging y prod; tests unitarios y E2E; design system documentado.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="doc-footer">
+    <p>Remesas Bansur — Investigación y arquitectura técnica</p>
+    <p class="tagline">Unimos familias, impulsamos futuros.</p>
+    <p style="margin-top: 12px;"><a href="index.html" style="color: var(--gold);">Volver a la página principal</a></p>
+  </footer>
+</body>
+</html>
