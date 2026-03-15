@@ -1,6 +1,6 @@
-# Arquitectura técnica — Página sencilla Remesas Bansur
+# Arquitectura técnica — Página sencilla Bansur
 
-Documento de referencia para el diseño e implementación técnica de la **página web sencilla e informativa** de Remesas Bansur. Incluye exhibición de servicios, calculadora/cotizaciones en pantalla y opcional formulario de contacto. **No hay backend para procesar envíos de remesas.**
+Documento de referencia para el diseño e implementación técnica de la **página web sencilla e informativa** de Bansur. Incluye exhibición de servicios, calculadora/cotizaciones en pantalla y opcional formulario de contacto. **No hay backend para procesar envíos de remesas.**
 
 ---
 
@@ -180,4 +180,4 @@ No se incluyen: /registro, /login, /envio, /mis-envios, /cuenta (no hay backend 
 
 ---
 
-*Documento de arquitectura técnica — Remesas Bansur. Actualizable según decisiones de stack y alcance de fases posteriores.*
+*Documento de arquitectura técnica — Bansur. Actualizable según decisiones de stack y alcance de fases posteriores.*

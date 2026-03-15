@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Investigación y arquitectura técnica — Remesas Bansur</title>
+  <title>Investigación y arquitectura técnica — Bansur</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -48,9 +48,12 @@
       text-align: center;
     }
     .doc-header img {
-      height: 56px;
-      margin-bottom: 20px;
+      height: 200px;
+      width: auto;
+      max-width: 400px;
+      margin-bottom: 28px;
       opacity: 0.95;
+      object-fit: contain;
     }
     .doc-header h1 {
       font-family: 'Cormorant Garamond', serif;
@@ -314,13 +317,14 @@
       margin-bottom: 6px;
     }
     .arch-pill.teal { background: rgba(0, 109, 91, 0.25); color: #7ac9a0; }
+    .arch-card code { background: rgba(0,0,0,0.35); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: var(--gold); }
     #arquitectura section { padding: 40px 0; }
     #arquitectura h2 { font-size: 1.5rem; }
   </style>
 </head>
 <body>
   <header class="doc-header">
-    <img src="logo bansur.png" alt="Remesas Bansur">
+    <img src="logo bansur.png" alt="Bansur">
     <h1>Investigación y arquitectura técnica</h1>
     <p class="subtitle">Unimos familias, impulsamos futuros</p>
     <p class="meta">Análisis de webs de remesas · Propuesta Bansur · Arquitectura de la nueva página</p>
@@ -580,13 +584,37 @@
     </section>
 
     <section id="arquitectura">
-      <h2>6. Arquitectura técnica — Página sencilla Remesas Bansur</h2>
+      <h2>6. Arquitectura técnica — Página sencilla Bansur</h2>
       <p class="intro">Referencia para el diseño e implementación técnica de la <strong>página web sencilla e informativa</strong>: exhibición de servicios, cotizaciones/calculadora en pantalla, sin backend para procesar envíos de remesas.</p>
 
       <div class="arch-hero">
         <h2>Visión general y alcance</h2>
         <p><strong>Objetivo:</strong> Página corporativa e informativa que muestre servicios (remesas, transferencias, pagos, recargas, etc.), Sobre nosotros, Beneficios, Cómo funciona y Confianza. Se puede incluir <strong>calculadora o bloque de cotización</strong> (tipo de cambio, monto a recibir) para que el usuario vea cifras orientativas — todo en solo lectura o con datos estáticos/API de consulta; <strong>no existe backend para realizar envíos</strong> (no registro de usuarios para enviar, no procesamiento de remesas ni pasarela de pagos en esta página).</p>
         <p style="margin-top: 12px;"><strong>Requisitos no funcionales:</strong> LCP &lt; 2.5s, FID &lt; 100ms, CLS &lt; 0.1, WCAG 2.1 AA, disponibilidad ≥ 99.5%. Usuarios: visitantes que consultan servicios y cotizaciones; dispositivos móvil y desktop. Navegadores: Chrome, Firefox, Safari, Edge (últimas 2 versiones). Resoluciones 320px–1920px+.</p>
+        <p style="margin-top: 12px;"><strong>Expansión en América:</strong> la página debe contemplar varios idiomas (internacionalización, i18n) según los mercados objetivo en el continente.</p>
+      </div>
+
+      <h3>Idiomas e internacionalización (i18n)</h3>
+      <div class="arch-card">
+        <h3>Idiomas requeridos para expansión en América</h3>
+        <p>Además de <strong>español</strong> e <strong>inglés</strong>, para cubrir toda América se recomienda:</p>
+        <ul>
+          <li><strong>Portugués</strong> — Brasil (mayor economía y población de Sudamérica); mercado clave de remesas y banca.</li>
+          <li><strong>Francés</strong> — Canadá (Quebec), Haití, Guayana Francesa, Martinica, Guadalupe y otros territorios francófonos del Caribe.</li>
+          <li><strong>Creole haitiano</strong> — Haití (opcional pero recomendable para accesibilidad y confianza del usuario haitiano).</li>
+          <li><strong>Neerlandés (holandés)</strong> — Surinam, Aruba, Curazao, Bonaire (prioridad según estrategia comercial).</li>
+        </ul>
+        <p style="margin-top: 12px;"><strong>Resumen:</strong> Idiomas mínimos recomendados: <span class="arch-pill">Español</span> <span class="arch-pill">English</span> <span class="arch-pill">Português</span> <span class="arch-pill">Français</span>. Opcionales según mercado: Creole, Nederlands.</p>
+      </div>
+      <div class="arch-card">
+        <h3>Implementación técnica (i18n)</h3>
+        <ul>
+          <li><strong>Atributo <code>lang</code></strong> en el <code>&lt;html&gt;</code> (ej. <code>lang="es"</code>, <code>lang="en"</code>, <code>lang="pt-BR"</code>).</li>
+          <li><strong>Selector de idioma</strong> en header o footer (ES | EN | PT | FR) que cambie la versión o redirija a la URL del idioma.</li>
+          <li><strong>URLs por idioma:</strong> subcarpetas (<code>/es/</code>, <code>/en/</code>, <code>/pt/</code>) o subdominios (<code>es.bansur.com</code>); o parámetro <code>?lang=</code> si se usa una sola página con contenido dinámico.</li>
+          <li><strong>Contenido traducido:</strong> archivos de traducción (JSON, YAML) o CMS con soporte multiidioma; la calculadora y textos legales deben estar en todos los idiomas ofrecidos.</li>
+          <li><strong>SEO:</strong> etiquetas <code>hreflang</code> en el <code>&lt;head&gt;</code> para cada idioma; sitemap con URLs alternativas por idioma.</li>
+        </ul>
       </div>
 
       <h3>Stack tecnológico</h3>
@@ -621,7 +649,7 @@ No hay: /registro, /login, /envio, /mis-envios ni backend de operaciones.</div>
       <div class="arch-card">
         <h3>Componentes reutilizables</h3>
         <ul>
-          <li><strong>Header/Nav</strong> — Logo, menú, CTA, sticky con cambio al scroll</li>
+          <li><strong>Header/Nav</strong> — Logo, menú, CTA, <strong>selector de idioma</strong> (ES, EN, PT, FR, etc.), sticky con cambio al scroll</li>
           <li><strong>Footer</strong> — Logo, enlaces legales, contacto, tagline</li>
           <li><strong>Sección genérica</strong> — Título, subtítulo, grid; parallax opcional</li>
           <li><strong>Tarjeta servicio / beneficio</strong> — Icono, título, descripción</li>
@@ -679,7 +707,7 @@ No hay: /registro, /login, /envio, /mis-envios ni backend de operaciones.</div>
   </main>
 
   <footer class="doc-footer">
-    <p>Remesas Bansur — Investigación y arquitectura técnica</p>
+    <p>Bansur — Investigación y arquitectura técnica</p>
     <p class="tagline">Unimos familias, impulsamos futuros.</p>
     <p style="margin-top: 12px;"><a href="index.html" style="color: var(--gold);">Volver a la página principal</a></p>
   </footer>

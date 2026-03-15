@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Remesas Bansur | Unimos familias, impulsamos futuros</title>
-  <meta name="description" content="Propuesta visual de la web de Remesas Bansur. Conoce los servicios: envío y recepción de remesas, transparencia y confianza. Página de demostración.">
+  <title>Bansur | Unimos familias, impulsamos futuros</title>
+  <meta name="description" content="Propuesta visual de la web de Bansur. Conoce los servicios: banca, remesas, transferencias, transparencia y confianza. Página de demostración.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -142,7 +142,7 @@
     }
 
     .logo-nav {
-      height: 44px;
+      height: 72px;
       width: auto;
       object-fit: contain;
       opacity: 0;
@@ -173,7 +173,8 @@
     .nav-links a:nth-child(4) { animation-delay: 0.38s; }
     .nav-links a:nth-child(5) { animation-delay: 0.42s; }
     .nav-links a:nth-child(6) { animation-delay: 0.44s; }
-    .nav-links a:nth-child(7) { animation-delay: 0.48s; }
+    .nav-links .btn-idioma { animation-delay: 0.46s; }
+    .nav-links li:nth-child(8) a { animation-delay: 0.48s; }
 
     .nav-links a::after {
       content: '';
@@ -188,6 +189,104 @@
 
     .nav-links a:hover::after {
       width: 100%;
+    }
+    .btn-idioma {
+      color: var(--white);
+      background: none;
+      border: none;
+      font: inherit;
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      padding: 0;
+      opacity: 0;
+      animation: fadeDown 0.8s ease forwards 0.46s;
+      position: relative;
+    }
+    .btn-idioma::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--teal-light));
+      transition: width var(--transition);
+    }
+    .btn-idioma:hover::after { width: 100%; }
+    .btn-idioma:hover { color: var(--gold); }
+
+    /* Overlay menú idiomas */
+    .idioma-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+    .idioma-overlay.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .idioma-menu {
+      background: linear-gradient(160deg, rgba(18, 18, 18, 0.98) 0%, rgba(13, 28, 26, 0.98) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+      border-radius: 20px;
+      padding: 32px 40px;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+      transform: scale(0.92);
+      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .idioma-overlay.is-open .idioma-menu {
+      transform: scale(1);
+    }
+    .idioma-menu h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .idioma-menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .idioma-menu li { margin-bottom: 8px; }
+    .idioma-menu a {
+      display: block;
+      padding: 14px 20px;
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+    .idioma-menu a:hover, .idioma-menu a[aria-current="page"] {
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+    }
+    .idioma-menu .cerrar {
+      display: block;
+      margin-top: 20px;
+      padding: 12px;
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+    .idioma-menu .cerrar:hover {
+      color: var(--gold);
+      background: rgba(255,255,255,0.05);
     }
 
     .btn {
@@ -278,7 +377,8 @@
     }
 
     .hero-logo {
-      max-width: 200px;
+      max-width: 340px;
+      width: 100%;
       height: auto;
       filter: drop-shadow(0 10px 40px rgba(212, 175, 55, 0.2));
     }
@@ -973,9 +1073,9 @@
     }
 
     .footer-logo {
-      height: 48px;
+      height: 88px;
       opacity: 0.8;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     footer p {
@@ -996,6 +1096,17 @@
       transition: color var(--transition), opacity var(--transition);
     }
     .footer-link-doc:hover { color: var(--gold-light); opacity: 0.95; }
+    .footer-btn-idioma {
+      background: none;
+      border: none;
+      color: var(--gold);
+      font: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 0;
+      text-decoration: none;
+    }
+    .footer-btn-idioma:hover { color: var(--gold-light); text-decoration: underline; }
 
     /* Scroll progress bar */
     .scroll-progress {
@@ -1082,11 +1193,26 @@
   <div class="parallax-orb orb-3" id="orb3"><div class="parallax-orb-inner"></div></div>
 
   <div class="propuesta-aviso" role="note" aria-label="Aviso">
-    <span>Propuesta visual — En esta página no se realizan transacciones. Solo se muestran los servicios de Remesas Bansur.</span>
+    <span>Propuesta visual — En esta página no se realizan transacciones. Solo se muestran los servicios de Bansur.</span>
   </div>
+  <div class="idioma-overlay" id="idiomaOverlay" role="dialog" aria-modal="true" aria-labelledby="idiomaMenuTitle" aria-hidden="true">
+    <div class="idioma-menu">
+      <h3 id="idiomaMenuTitle">Elegir idioma</h3>
+      <ul>
+        <li><a href="#" aria-current="page">Español</a></li>
+        <li><a href="#">English</a></li>
+        <li><a href="#">Português</a></li>
+        <li><a href="#">Français</a></li>
+        <li><a href="#">Kreyòl ayisyen</a></li>
+        <li><a href="#">Nederlands</a></li>
+      </ul>
+      <button type="button" class="cerrar" id="idiomaCerrar">Cerrar</button>
+    </div>
+  </div>
+
   <nav id="nav">
     <div class="container">
-      <img src="logo bansur.png" alt="Remesas Bansur" class="logo-nav">
+      <img src="logo bansur.png" alt="Bansur" class="logo-nav">
       <ul class="nav-links">
         <li><a href="#servicios">Servicios</a></li>
         <li><a href="#beneficios">Beneficios</a></li>
@@ -1094,6 +1220,7 @@
         <li><a href="#como-funciona">Cómo funciona</a></li>
         <li><a href="#confianza">Confianza</a></li>
         <li><a href="index2.html">Investigación y arquitectura</a></li>
+        <li><button type="button" class="btn-idioma" id="btnIdioma" aria-haspopup="dialog" aria-expanded="false">Idioma</button></li>
         <li><a href="#propuesta" class="btn btn-primary">Ver propuesta</a></li>
       </ul>
     </div>
@@ -1107,7 +1234,7 @@
     </div>
     <div class="hero-content">
       <div class="hero-logo-wrap">
-        <img src="logo bansur.png" alt="Remesas Bansur" class="hero-logo">
+        <img src="logo bansur.png" alt="Bansur" class="hero-logo">
       </div>
       <h1>Envía con <span class="gold">confianza</span></h1>
       <p class="hero-tagline">Unimos familias, impulsamos futuros</p>
@@ -1186,7 +1313,7 @@
   <section class="section" id="beneficios">
     <div class="section-parallax-bg" data-parallax="0.15"></div>
     <div class="container">
-      <h2 class="section-title" data-animate><span class="word">Por</span> <span class="word">qué</span> <span class="word">elegir</span> <span class="word">Remesas</span> <span class="word">Bansur</span></h2>
+      <h2 class="section-title" data-animate><span class="word">Por</span> <span class="word">qué</span> <span class="word">elegir</span> <span class="word">Bansur</span></h2>
       <p class="section-subtitle" data-animate>
         Diseñamos cada detalle para que enviar dinero sea simple, seguro y al mejor valor.
       </p>
@@ -1247,7 +1374,7 @@
     <div class="container">
       <h2 class="section-title" data-animate><span class="word">Confían</span> <span class="word">en</span> <span class="word">nosotros</span></h2>
       <p class="section-subtitle" data-animate>
-        Miles de familias ya envían y reciben con Remesas Bansur.
+        Miles de familias ya envían y reciben con Bansur.
       </p>
       <div class="stats">
         <div class="stat" data-animate>
@@ -1282,7 +1409,7 @@
           <div class="about-visual-block" data-animate>
             <p class="tagline">Unimos familias, impulsamos futuros</p>
             <h2>Más que remesas: tu aliado financiero</h2>
-            <p>En Remesas Bansur creemos que cada familia merece acceso a servicios financieros transparentes y seguros. Nacimos para ofrecer no solo envío y recepción de dinero, sino una red de soluciones — transferencias, pagos, ahorro, seguros — con la confianza y claridad que nuestros clientes necesitan.</p>
+            <p>En Bansur creemos que cada familia merece acceso a servicios financieros transparentes y seguros. Nacimos para ofrecer no solo envío y recepción de dinero, sino una red de soluciones — transferencias, pagos, ahorro, seguros — con la confianza y claridad que nuestros clientes necesitan.</p>
           </div>
         </div>
         <div class="about-pillars">
@@ -1310,7 +1437,7 @@
     <div class="section-parallax-bg" data-parallax="0.1"></div>
     <div class="container">
       <div class="cta-box" data-animate>
-        <h2>Propuesta de valor Remesas Bansur</h2>
+        <h2>Propuesta de valor Bansur</h2>
         <p>Esta es una página de demostración para visualizar todos nuestros servicios: remesas, transferencias, pagos, recargas, depósitos, seguros y más. No se realizan transacciones aquí.</p>
         <a href="#servicios" class="btn btn-primary">Ver servicios</a>
       </div>
@@ -1319,10 +1446,11 @@
 
   <footer>
     <div class="container">
-      <img src="logo bansur.png" alt="Remesas Bansur" class="footer-logo">
-      <p>Remesas Bansur — Propuesta visual. Solo exhibición de servicios, sin transacciones.</p>
+      <img src="logo bansur.png" alt="Bansur" class="footer-logo">
+      <p>Bansur — Propuesta visual. Solo exhibición de servicios, sin transacciones.</p>
       <p class="tagline">Unimos familias, impulsamos futuros.</p>
-      <p style="margin-top: 16px;"><a href="index2.html" class="footer-link-doc">Ver investigación y arquitectura técnica →</a></p>
+      <p style="margin-top: 16px;"><button type="button" class="footer-btn-idioma" id="footerBtnIdioma" aria-label="Abrir menú de idiomas">Idioma</button></p>
+      <p style="margin-top: 12px;"><a href="index2.html" class="footer-link-doc">Ver investigación y arquitectura técnica →</a></p>
     </div>
   </footer>
 
@@ -1381,6 +1509,41 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     onScroll();
+
+    // ——— Menú idiomas (overlay) ———
+    const idiomaOverlay = document.getElementById('idiomaOverlay');
+    const btnIdioma = document.getElementById('btnIdioma');
+    const footerBtnIdioma = document.getElementById('footerBtnIdioma');
+    const idiomaCerrar = document.getElementById('idiomaCerrar');
+
+    function openIdiomaMenu() {
+      if (idiomaOverlay) {
+        idiomaOverlay.classList.add('is-open');
+        idiomaOverlay.setAttribute('aria-hidden', 'false');
+        if (btnIdioma) btnIdioma.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    function closeIdiomaMenu() {
+      if (idiomaOverlay) {
+        idiomaOverlay.classList.remove('is-open');
+        idiomaOverlay.setAttribute('aria-hidden', 'true');
+        if (btnIdioma) btnIdioma.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (btnIdioma) btnIdioma.addEventListener('click', openIdiomaMenu);
+    if (footerBtnIdioma) footerBtnIdioma.addEventListener('click', openIdiomaMenu);
+    if (idiomaCerrar) idiomaCerrar.addEventListener('click', closeIdiomaMenu);
+    if (idiomaOverlay) {
+      idiomaOverlay.addEventListener('click', function(e) {
+        if (e.target === idiomaOverlay) closeIdiomaMenu();
+      });
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && idiomaOverlay && idiomaOverlay.classList.contains('is-open')) closeIdiomaMenu();
+    });
 
     // ——— Scroll-triggered animations ———
     const observerOptions = {
